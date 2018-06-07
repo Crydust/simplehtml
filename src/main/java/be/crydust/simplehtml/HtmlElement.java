@@ -102,9 +102,10 @@ final class HtmlElement implements Html {
 
 	@Override
 	public void appendTo(StringBuilder sb) {
+		final String encodedName = encode(name);
 		sb
 				.append('<')
-				.append(encode(name));
+				.append(encodedName);
 		for (final HtmlAttribute attribute : this.attributes) {
 			attribute.appendTo(sb);
 		}
@@ -116,7 +117,7 @@ final class HtmlElement implements Html {
 				child.appendTo(sb);
 			}
 			sb.append("</")
-					.append(encode(name))
+					.append(encodedName)
 					.append('>');
 		}
 	}
