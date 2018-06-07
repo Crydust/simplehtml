@@ -1,6 +1,6 @@
 package be.crydust.simplehtml;
 
-class HtmlText implements Html {
+final class HtmlText implements Html {
 	private final String text;
 
 	HtmlText(final String text) {

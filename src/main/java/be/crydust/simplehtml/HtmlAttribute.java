@@ -2,7 +2,7 @@ package be.crydust.simplehtml;
 
 import java.util.Objects;
 
-class HtmlAttribute {
+final class HtmlAttribute {
 	private final String name;
 	private final String value;
 
