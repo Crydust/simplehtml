@@ -9,6 +9,13 @@ final class HtmlText implements Html {
 
 	@Override
 	public String toString() {
-		return HtmlElement.encode(text);
+		final StringBuilder sb = new StringBuilder();
+		appendTo(sb);
+		return sb.toString();
+	}
+
+	@Override
+	public void appendTo(StringBuilder sb) {
+		sb.append(HtmlElement.encode(text));
 	}
 }

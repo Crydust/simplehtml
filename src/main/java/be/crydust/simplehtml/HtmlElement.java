@@ -95,24 +95,30 @@ final class HtmlElement implements Html {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder()
+		final StringBuilder sb = new StringBuilder();
+		appendTo(sb);
+		return sb.toString();
+	}
+
+	@Override
+	public void appendTo(StringBuilder sb) {
+		sb
 				.append('<')
 				.append(encode(name));
 		for (final HtmlAttribute attribute : this.attributes) {
-			sb.append(attribute);
+			attribute.appendTo(sb);
 		}
 		if (empty) {
 			sb.append("/>");
 		} else {
 			sb.append('>');
 			for (final Html child : this.children) {
-				sb.append(child);
+				child.appendTo(sb);
 			}
 			sb.append("</")
 					.append(encode(name))
 					.append('>');
 		}
-		return sb.toString();
 	}
 
 }

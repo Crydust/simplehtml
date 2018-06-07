@@ -45,4 +45,5 @@ public interface Html {
 		return new HtmlText(content);
 	}
 
+	void appendTo(StringBuilder sb);
 }

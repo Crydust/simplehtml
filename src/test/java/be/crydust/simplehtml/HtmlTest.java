@@ -6,6 +6,7 @@ import static be.crydust.simplehtml.HtmlElement.encode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class HtmlTest {
@@ -58,4 +59,31 @@ public class HtmlTest {
 		assertThat(encode("&a&b&c&"), is("&amp;a&amp;b&amp;c&amp;"));
 		assertThat(encode("&<>\"'`"), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
 	}
+
+	@Test
+	public void should_nest_elements_correctly() {
+		final String html = h("root",
+				h("1",
+						h("11"), h("12"), h("13")
+				),
+				h("2",
+						h("21"), h("22"), h("23")
+				),
+				h("3",
+						h("31"), h("32"), h("33")
+				)
+		).toString();
+		assertThat(html, is("<root><1><11></11><12></12><13></13></1><2><21></21><22></22><23></23></2><3><31></31><32></32><33></33></3></root>"));
+	}
+
+	@Test
+	@Ignore("still needs fixing")
+	public void should_handle_deep_nesting() {
+		Html div = h("div");
+		for (int i = 0; i < 7_862; i++) {
+			div = h("div", div);
+		}
+		final String html = div.toString();
+	}
+
 }

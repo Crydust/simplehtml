@@ -30,6 +30,12 @@ final class HtmlAttribute {
 
 	@Override
 	public String toString() {
-		return ' ' + HtmlElement.encode(name) + "=\"" + HtmlElement.encode(value) + '"';
+		final StringBuilder sb = new StringBuilder();
+		appendTo(sb);
+		return sb.toString();
+	}
+
+	void appendTo(StringBuilder sb) {
+		sb.append(' ').append(HtmlElement.encode(name)).append("=\"").append(HtmlElement.encode(value)).append('"');
 	}
 }
