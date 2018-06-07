@@ -3,7 +3,7 @@ package be.crydust.simplehtml;
 class HtmlText implements Html {
 	private final String text;
 
-	HtmlText(String text) {
+	HtmlText(final String text) {
 		this.text = text == null ? "" : text;
 	}
 

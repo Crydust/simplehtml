@@ -9,39 +9,39 @@ import java.util.Map;
 
 public interface Html {
 
-	static HtmlElement h(String name) {
+	static HtmlElement h(final String name) {
 		return new HtmlElement(name, null, null);
 	}
 
-	static HtmlElement h(String name, Map<String, String> attributeMap) {
+	static HtmlElement h(final String name, final Map<String, String> attributeMap) {
 		return new HtmlElement(name, mapToHtmlAttributes(attributeMap), null);
 	}
 
-	static HtmlElement h(String name, List<Html> children) {
+	static HtmlElement h(final String name, final List<? extends Html> children) {
 		return new HtmlElement(name, null, children);
 	}
 
-	static HtmlElement h(String name, Html... children) {
+	static HtmlElement h(final String name, final Html... children) {
 		return new HtmlElement(name, null, asList(children));
 	}
 
-	static HtmlElement h(String name, String text) {
+	static HtmlElement h(final String name, final String text) {
 		return new HtmlElement(name, null, singletonList(t(text)));
 	}
 
-	static HtmlElement h(String name, Map<String, String> attributeMap, Html... children) {
+	static HtmlElement h(final String name, final Map<String, String> attributeMap, final Html... children) {
 		return new HtmlElement(name, mapToHtmlAttributes(attributeMap), asList(children));
 	}
 
-	static HtmlElement h(String name, Map<String, String> attributeMap, String text) {
+	static HtmlElement h(final String name, final Map<String, String> attributeMap, final String text) {
 		return new HtmlElement(name, mapToHtmlAttributes(attributeMap), singletonList(t(text)));
 	}
 
-	static HtmlElement h(String name, Map<String, String> attributeMap, List<Html> children) {
+	static HtmlElement h(final String name, final Map<String, String> attributeMap, final List<? extends Html> children) {
 		return new HtmlElement(name, mapToHtmlAttributes(attributeMap), children);
 	}
 
-	static Html t(String content) {
+	static Html t(final String content) {
 		return new HtmlText(content);
 	}
 

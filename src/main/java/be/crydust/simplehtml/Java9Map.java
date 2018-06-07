@@ -16,13 +16,13 @@ public interface Java9Map {
 		return Collections.emptyMap();
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1) {
+	static <K, V> Map<K, V> of(final K k1, final V v1) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -31,7 +31,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -43,7 +43,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -58,7 +58,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -76,7 +76,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5, final K k6, final V v6) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -97,7 +97,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5, final K k6, final V v6, final K k7, final V v7) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -121,7 +121,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5, final K k6, final V v6, final K k7, final V v7, final K k8, final V v8) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -148,7 +148,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5, final K k6, final V v6, final K k7, final V v7, final K k8, final V v8, final K k9, final V v9) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {
@@ -178,7 +178,7 @@ public interface Java9Map {
 		return Collections.unmodifiableMap(map);
 	}
 
-	static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
+	static <K, V> Map<K, V> of(final K k1, final V v1, final K k2, final V v2, final K k3, final V v3, final K k4, final V v4, final K k5, final V v5, final K k6, final V v6, final K k7, final V v7, final K k8, final V v8, final K k9, final V v9, final K k10, final V v10) {
 		final Map<K, V> map = new HashMap<>();
 		map.put(requireNonNull(k1, "k1 is null"), requireNonNull(v1, "v1 is null"));
 		if (nonNull(map.put(requireNonNull(k2, "k2 is null"), requireNonNull(v2, "v2 is null")))) {

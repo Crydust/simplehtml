@@ -22,7 +22,7 @@ final class HtmlElement implements Html {
 	private final List<Html> children;
 	private final boolean empty;
 
-	HtmlElement(String name, Set<HtmlAttribute> attributes, List<Html> children) {
+	HtmlElement(final String name, final Set<? extends HtmlAttribute> attributes, final List<? extends Html> children) {
 		final String trimmedName = Objects.requireNonNull(name, "name").trim();
 		if (trimmedName.isEmpty()) {
 			throw new IllegalArgumentException("tagname is empty");
@@ -37,9 +37,9 @@ final class HtmlElement implements Html {
 				: unmodifiableList(new ArrayList<>(children));
 	}
 
-	static Set<HtmlAttribute> mapToHtmlAttributes(Map<String, String> attributeMap) {
+	static Set<HtmlAttribute> mapToHtmlAttributes(final Map<String, String> attributeMap) {
 		final Set<HtmlAttribute> attributes = new HashSet<>();
-		for (Map.Entry<String, String> entry : attributeMap.entrySet()) {
+		for (final Map.Entry<String, String> entry : attributeMap.entrySet()) {
 			if (!attributes.add(new HtmlAttribute(entry.getKey(), entry.getValue()))) {
 				throw new IllegalArgumentException("duplicate attribute '" + entry.getKey() + "=" + entry.getValue() + "'");
 			}
@@ -84,14 +84,14 @@ final class HtmlElement implements Html {
 		final StringBuilder sb = new StringBuilder()
 				.append('<')
 				.append(encode(name));
-		for (HtmlAttribute attribute : this.attributes) {
+		for (final HtmlAttribute attribute : this.attributes) {
 			sb.append(attribute);
 		}
 		if (empty) {
 			sb.append("/>");
 		} else {
 			sb.append('>');
-			for (Html child : this.children) {
+			for (final Html child : this.children) {
 				sb.append(child);
 			}
 			sb.append("</")

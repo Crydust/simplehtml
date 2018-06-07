@@ -6,7 +6,7 @@ class HtmlAttribute {
 	private final String name;
 	private final String value;
 
-	HtmlAttribute(String name, String value) {
+	HtmlAttribute(final String name, final String value) {
 		final String trimmedName = Objects.requireNonNull(name, "name").trim();
 		if (trimmedName.isEmpty()) {
 			throw new IllegalArgumentException("tagname is empty");
@@ -16,10 +16,10 @@ class HtmlAttribute {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		HtmlAttribute that = (HtmlAttribute) o;
+		final HtmlAttribute that = (HtmlAttribute) o;
 		return Objects.equals(name, that.name);
 	}
 
