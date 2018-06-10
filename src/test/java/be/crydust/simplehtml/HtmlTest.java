@@ -1,6 +1,11 @@
 package be.crydust.simplehtml;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static be.crydust.simplehtml.Html.h;
 import static be.crydust.simplehtml.Html.t;
@@ -9,6 +14,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class HtmlTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void example1() {
@@ -83,4 +91,26 @@ public class HtmlTest {
         }
         final String html = div.toString();
     }
+
+    @Test
+    public void should_throw_for_too_deep_nesting() {
+        Html div = h("div");
+        for (int i = 0; i < 20_000; i++) {
+            div = h("div", div);
+        }
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("Sorry, html is nested too deeply. MAX_DEPTH = 13526");
+        final String html = div.toString();
+    }
+
+    @Test
+    public void should_handle_wide_nesting() {
+        final List<Html> divs = new ArrayList<>();
+        for (int i = 0; i < 10_000; i++) {
+            divs.add(h("div"));
+        }
+        final Html root = h("root", divs);
+        final String html = root.toString();
+    }
+
 }

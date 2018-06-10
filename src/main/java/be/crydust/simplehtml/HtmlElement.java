@@ -19,9 +19,10 @@ import static java.util.Collections.unmodifiableSet;
 
 final class HtmlElement implements Html {
 
+    // the ArrayDeque would grow capacity from 13528 to 20292 beyond this number
+    private static final int MAX_DEPTH = 13_526;
     private static final Pattern EMPTY_TAGS = Pattern.compile("(?i)area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr");
     private static final Pattern HTML_CHARS = Pattern.compile("[&<>\"'`]");
-
     private final String name;
     private final Set<HtmlAttribute> attributes;
     private final List<Html> children;
@@ -106,6 +107,9 @@ final class HtmlElement implements Html {
         while (!stack.isEmpty()) {
             current = Objects.requireNonNull(stack.peek(), "current");
             while (current.iterator.hasNext()) {
+                if (stack.size() > MAX_DEPTH) {
+                    throw new IllegalStateException("Sorry, html is nested too deeply. MAX_DEPTH = " + MAX_DEPTH);
+                }
                 current = new HtmlAndIterator(current.iterator.next());
                 stack.push(current);
                 current.html.appendStartTo(sb);
