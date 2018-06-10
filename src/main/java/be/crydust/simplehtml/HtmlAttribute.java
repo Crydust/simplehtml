@@ -35,7 +35,7 @@ final class HtmlAttribute {
 		return sb.toString();
 	}
 
-	void appendTo(StringBuilder sb) {
+    void appendTo(final StringBuilder sb) {
 		sb.append(' ').append(HtmlElement.encode(name)).append("=\"").append(HtmlElement.encode(value)).append('"');
 	}
 }

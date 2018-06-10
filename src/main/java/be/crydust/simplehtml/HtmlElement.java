@@ -117,7 +117,7 @@ final class HtmlElement implements Html {
     }
 
     @Override
-    public void appendStartTo(StringBuilder sb) {
+    public void appendStartTo(final StringBuilder sb) {
         sb.append('<').append(encode(name));
         for (final HtmlAttribute attribute : this.attributes) {
             attribute.appendTo(sb);
@@ -126,7 +126,7 @@ final class HtmlElement implements Html {
     }
 
     @Override
-    public void appendEndTo(StringBuilder sb) {
+    public void appendEndTo(final StringBuilder sb) {
         if (empty) {
             return;
         }
@@ -142,7 +142,7 @@ final class HtmlElement implements Html {
         final Html html;
         final Iterator<Html> iterator;
 
-        HtmlAndIterator(Html html) {
+        HtmlAndIterator(final Html html) {
             this.html = html;
             this.iterator = html.iterator();
         }

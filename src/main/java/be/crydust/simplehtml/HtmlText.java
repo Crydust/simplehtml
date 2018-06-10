@@ -18,12 +18,12 @@ final class HtmlText implements Html {
 	}
 
     @Override
-    public void appendStartTo(StringBuilder sb) {
+    public void appendStartTo(final StringBuilder sb) {
         sb.append(HtmlElement.encode(text));
     }
 
     @Override
-    public void appendEndTo(StringBuilder sb) {
+    public void appendEndTo(final StringBuilder sb) {
         // NOOP
     }
 
