@@ -1,11 +1,11 @@
 package be.crydust.simplehtml;
 
-import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Helper class which should be replaced by java 9 Map.
