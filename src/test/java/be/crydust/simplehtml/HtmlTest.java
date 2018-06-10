@@ -9,7 +9,6 @@ import java.util.List;
 
 import static be.crydust.simplehtml.Html.h;
 import static be.crydust.simplehtml.Html.t;
-import static be.crydust.simplehtml.HtmlElement.encode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -59,12 +58,12 @@ public class HtmlTest {
 
     @Test
     public void encode_should_replace_html() {
-        assertThat(encode("abc"), is("abc"));
-        assertThat(encode("abc&"), is("abc&amp;"));
-        assertThat(encode("&abc"), is("&amp;abc"));
-        assertThat(encode("a&bc"), is("a&amp;bc"));
-        assertThat(encode("&a&b&c&"), is("&amp;a&amp;b&amp;c&amp;"));
-        assertThat(encode("&<>\"'`"), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
+        assertThat(t("abc").toString(), is("abc"));
+        assertThat(t("abc&").toString(), is("abc&amp;"));
+        assertThat(t("&abc").toString(), is("&amp;abc"));
+        assertThat(t("a&bc").toString(), is("a&amp;bc"));
+        assertThat(t("&a&b&c&").toString(), is("&amp;a&amp;b&amp;c&amp;"));
+        assertThat(t("&<>\"'`").toString(), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
     }
 
     @Test
