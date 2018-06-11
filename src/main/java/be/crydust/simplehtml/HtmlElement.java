@@ -106,6 +106,15 @@ final class HtmlElement implements Html {
 
     @Override
     public void appendTo(StringBuilder sb) {
+        // this leeds to a StackOverflowError given deeply nested tags
+        // appendStartTo(sb);
+        // for (Html html : this) {
+        //     html.appendTo(sb);
+        // }
+        // appendEndTo(sb);
+        //
+        // it is replaced by the more complex logic below
+        // this is a depth first traversal of the tree
         final Deque<HtmlAndIterator> stack = new ArrayDeque<>();
         HtmlAndIterator current = new HtmlAndIterator(this);
         stack.push(current);
