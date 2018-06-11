@@ -100,6 +100,12 @@ final class HtmlElement implements Html {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
+        appendTo(sb);
+        return sb.toString();
+    }
+
+    @Override
+    public void appendTo(StringBuilder sb) {
         final Deque<HtmlAndIterator> stack = new ArrayDeque<>();
         HtmlAndIterator current = new HtmlAndIterator(this);
         stack.push(current);
@@ -117,7 +123,6 @@ final class HtmlElement implements Html {
             current.html.appendEndTo(sb);
             stack.pop();
         }
-        return sb.toString();
     }
 
     @Override

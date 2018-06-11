@@ -45,7 +45,22 @@ public interface Html extends Iterable<Html> {
         return new HtmlText(content);
     }
 
+    static Html r(final String content) {
+        return new HtmlRaw(content);
+    }
+
+    static Html f(final Html... children) {
+        return new HtmlFragment(asList(children));
+    }
+
+    static Html f(final List<? extends Html> children) {
+        return new HtmlFragment(children);
+    }
+
+    void appendTo(StringBuilder sb);
+
     void appendStartTo(StringBuilder sb);
 
     void appendEndTo(StringBuilder sb);
+
 }

@@ -7,7 +7,9 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static be.crydust.simplehtml.Html.f;
 import static be.crydust.simplehtml.Html.h;
+import static be.crydust.simplehtml.Html.r;
 import static be.crydust.simplehtml.Html.t;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -57,13 +59,32 @@ public class HtmlTest {
     }
 
     @Test
-    public void encode_should_replace_html() {
+    public void should_handle_fragments() {
+        final String html = f(
+                h("a"),
+                h("b")
+        ).toString();
+        assertThat(html, is("<a></a><b></b>"));
+    }
+
+    @Test
+    public void text_should_replace_html() {
         assertThat(t("abc").toString(), is("abc"));
         assertThat(t("abc&").toString(), is("abc&amp;"));
         assertThat(t("&abc").toString(), is("&amp;abc"));
         assertThat(t("a&bc").toString(), is("a&amp;bc"));
         assertThat(t("&a&b&c&").toString(), is("&amp;a&amp;b&amp;c&amp;"));
         assertThat(t("&<>\"'`").toString(), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
+    }
+
+    @Test
+    public void raw_should_not_replace_html() {
+        assertThat(r("abc").toString(), is("abc"));
+        assertThat(r("abc&").toString(), is("abc&"));
+        assertThat(r("&abc").toString(), is("&abc"));
+        assertThat(r("a&bc").toString(), is("a&bc"));
+        assertThat(r("&a&b&c&").toString(), is("&a&b&c&"));
+        assertThat(r("&<>\"'`").toString(), is("&<>\"'`"));
     }
 
     @Test

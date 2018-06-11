@@ -3,10 +3,10 @@ package be.crydust.simplehtml;
 import java.util.Collections;
 import java.util.Iterator;
 
-final class HtmlText implements Html {
+final class HtmlRaw implements Html {
     private final String text;
 
-    HtmlText(final String text) {
+    HtmlRaw(final String text) {
         this.text = text == null ? "" : text;
     }
 
@@ -24,13 +24,14 @@ final class HtmlText implements Html {
 
     @Override
     public void appendStartTo(final StringBuilder sb) {
-        sb.append(HtmlElement.encode(text));
+        sb.append(text);
     }
 
     @Override
     public void appendEndTo(final StringBuilder sb) {
         // NOOP
     }
+
 
     @Override
     public Iterator<Html> iterator() {
