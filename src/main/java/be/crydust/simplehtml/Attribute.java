@@ -2,11 +2,11 @@ package be.crydust.simplehtml;
 
 import java.util.Objects;
 
-final class HtmlAttribute {
+final class Attribute {
     private final String name;
     private final String value;
 
-    HtmlAttribute(final String name, final String value) {
+    Attribute(final String name, final String value) {
         final String trimmedName = Objects.requireNonNull(name, "name").trim();
         if (trimmedName.isEmpty()) {
             throw new IllegalArgumentException("tagname is empty");
@@ -19,7 +19,7 @@ final class HtmlAttribute {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final HtmlAttribute that = (HtmlAttribute) o;
+        final Attribute that = (Attribute) o;
         return Objects.equals(name, that.name);
     }
 
@@ -36,6 +36,6 @@ final class HtmlAttribute {
     }
 
     void appendTo(final StringBuilder sb) {
-        sb.append(' ').append(HtmlElement.encode(name)).append("=\"").append(HtmlElement.encode(value)).append('"');
+        sb.append(' ').append(HtmlUtil.encode(name)).append("=\"").append(HtmlUtil.encode(value)).append('"');
     }
 }

@@ -7,7 +7,6 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static be.crydust.simplehtml.Html.f;
 import static be.crydust.simplehtml.Html.h;
 import static be.crydust.simplehtml.Html.r;
 import static be.crydust.simplehtml.Html.t;
@@ -60,7 +59,7 @@ public class HtmlTest {
 
     @Test
     public void should_handle_fragments() {
-        final String html = f(
+        final String html = Html.h(
                 h("a"),
                 h("b")
         ).toString();

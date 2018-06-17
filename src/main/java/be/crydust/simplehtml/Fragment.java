@@ -7,11 +7,11 @@ import java.util.List;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
-final class HtmlFragment implements Html {
+final class Fragment implements Html {
 
     private final List<Html> children;
 
-    HtmlFragment(final List<? extends Html> children) {
+    Fragment(final List<? extends Html> children) {
         this.children = children == null
                 ? emptyList()
                 : unmodifiableList(new ArrayList<>(children));
