@@ -1,5 +1,6 @@
 package be.crydust.simplehtml;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -9,50 +10,62 @@ import static java.util.Collections.singletonList;
 
 public interface Html extends Iterable<Html> {
 
+    @Nonnull
     static Html h(final String name) {
         return new Element(name, null, null);
     }
 
+    @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap) {
         return new Element(name, convertMapToAttributes(attributeMap), null);
     }
 
+    @Nonnull
     static Html h(final String name, final List<? extends Html> children) {
         return new Element(name, null, children);
     }
 
+    @Nonnull
     static Html h(final String name, final Html... children) {
         return new Element(name, null, asList(children));
     }
 
+    @Nonnull
     static Html h(final String name, final String text) {
         return new Element(name, null, singletonList(t(text)));
     }
 
+    @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final Html... children) {
         return new Element(name, convertMapToAttributes(attributeMap), asList(children));
     }
 
+    @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final String text) {
         return new Element(name, convertMapToAttributes(attributeMap), singletonList(t(text)));
     }
 
+    @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final List<? extends Html> children) {
         return new Element(name, convertMapToAttributes(attributeMap), children);
     }
 
+    @Nonnull
     static Html t(final String content) {
         return new Text(content);
     }
 
+    @Nonnull
     static Html r(final String content) {
         return new Raw(content);
     }
 
+    @Nonnull
     static Html h(final Html... children) {
         return new Fragment(asList(children));
     }
 
+    @Nonnull
     static Html h(final List<? extends Html> children) {
         return new Fragment(children);
     }
