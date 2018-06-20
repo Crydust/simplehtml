@@ -3,6 +3,8 @@ package be.crydust.simplehtml;
 import java.util.Collections;
 import java.util.Iterator;
 
+import static be.crydust.simplehtml.HtmlUtil.encode;
+
 final class Text implements Html {
     private final String text;
 
@@ -24,7 +26,7 @@ final class Text implements Html {
 
     @Override
     public void appendStartTo(final StringBuilder sb) {
-        sb.append(HtmlUtil.encode(text));
+        sb.append(encode(text));
     }
 
     @Override

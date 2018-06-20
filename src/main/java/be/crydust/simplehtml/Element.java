@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static be.crydust.simplehtml.HtmlUtil.encode;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
@@ -79,11 +80,14 @@ final class Element implements Html {
 
     @Override
     public void appendStartTo(final StringBuilder sb) {
-        sb.append('<').append(HtmlUtil.encode(name));
+        sb.append('<').append(encode(name));
         for (final Attribute attribute : this.attributes) {
             attribute.appendTo(sb);
         }
-        sb.append(empty ? "/>" : '>');
+        if (empty) {
+            sb.append('/');
+        }
+        sb.append('>');
     }
 
     @Override
@@ -91,7 +95,7 @@ final class Element implements Html {
         if (empty) {
             return;
         }
-        sb.append("</").append(HtmlUtil.encode(name)).append('>');
+        sb.append("</").append(encode(name)).append('>');
     }
 
     @Override

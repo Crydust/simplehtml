@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import static be.crydust.simplehtml.HtmlUtil.encode;
+
 final class Attribute {
     private final String name;
     private final String value;
@@ -49,6 +51,6 @@ final class Attribute {
     }
 
     void appendTo(final StringBuilder sb) {
-        sb.append(' ').append(HtmlUtil.encode(name)).append("=\"").append(HtmlUtil.encode(value)).append('"');
+        sb.append(' ').append(encode(name)).append("=\"").append(encode(value)).append('"');
     }
 }
