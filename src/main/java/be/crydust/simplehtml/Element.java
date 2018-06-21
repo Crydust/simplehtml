@@ -20,7 +20,7 @@ final class Element implements Html {
     // the ArrayDeque would grow capacity from 13528 to 20292 beyond this number
     private static final int MAX_DEPTH = 13_526;
     // more restrictive than theoretically allowed:
-    // must start with a-z and contain dash, underscore a-z and 0-9.
+    // must start with a-z and can contain dash, underscore, a-z and 0-9.
     private static final Pattern VALID_TAG_NAME = Pattern.compile("(?i)[a-z][-_a-z0-9]*");
     private static final Pattern EMPTY_TAGS = Pattern.compile("(?i)area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr");
     private final String name;
