@@ -30,7 +30,7 @@ final class Element implements Html {
 
     Element(final String name, final Set<? extends Attribute> attributes, final List<? extends Html> children) {
         if (!VALID_TAG_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
-            throw new IllegalArgumentException("name '" + name + "' is not valid");
+            throw new IllegalArgumentException("Element name '" + name + "' is not valid");
         }
         this.name = name;
         this.empty = EMPTY_TAGS.matcher(name).matches();

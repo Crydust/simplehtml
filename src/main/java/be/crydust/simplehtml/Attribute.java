@@ -16,7 +16,7 @@ final class Attribute {
 
     Attribute(final String name, final String value) {
         if (!VALID_ATTRIBUTE_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
-            throw new IllegalArgumentException("name '" + name + "' is not valid");
+            throw new IllegalArgumentException("Attribute name '" + name + "' is not valid");
         }
         this.name = name;
         this.value = value == null ? "" : value;

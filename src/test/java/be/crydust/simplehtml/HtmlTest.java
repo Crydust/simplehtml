@@ -132,4 +132,18 @@ public class HtmlTest {
         final String html = root.toString();
     }
 
+    @Test
+    public void should_throw_for_invalid_tag_name() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Element name '<plaintext>' is not valid");
+        h("<plaintext>");
+    }
+
+    @Test
+    public void should_throw_for_invalid_attribute_name() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Attribute name '<plaintext>' is not valid");
+        h("div", Java9Map.of("<plaintext>", ""));
+    }
+
 }
