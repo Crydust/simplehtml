@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static be.crydust.simplehtml.HtmlUtil.encode;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
@@ -20,6 +19,9 @@ final class Element implements Html {
 
     // the ArrayDeque would grow capacity from 13528 to 20292 beyond this number
     private static final int MAX_DEPTH = 13_526;
+    // more restrictive than theoretically allowed:
+    // must start with a-z and contain dash, underscore a-z and 0-9.
+    private static final Pattern VALID_TAG_NAME = Pattern.compile("(?i)[a-z][-_a-z0-9]*");
     private static final Pattern EMPTY_TAGS = Pattern.compile("(?i)area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr");
     private final String name;
     private final Set<Attribute> attributes;
@@ -27,11 +29,10 @@ final class Element implements Html {
     private final boolean empty;
 
     Element(final String name, final Set<? extends Attribute> attributes, final List<? extends Html> children) {
-        final String trimmedName = Objects.requireNonNull(name, "name").trim();
-        if (trimmedName.isEmpty()) {
-            throw new IllegalArgumentException("tagname is empty");
+        if (!VALID_TAG_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
+            throw new IllegalArgumentException("name '" + name + "' is not valid");
         }
-        this.name = trimmedName;
+        this.name = name;
         this.empty = EMPTY_TAGS.matcher(name).matches();
         this.attributes = attributes == null
                 ? emptySet()
@@ -80,7 +81,7 @@ final class Element implements Html {
 
     @Override
     public void appendStartTo(final StringBuilder sb) {
-        sb.append('<').append(encode(name));
+        sb.append('<').append(name);
         for (final Attribute attribute : this.attributes) {
             attribute.appendTo(sb);
         }
@@ -95,7 +96,7 @@ final class Element implements Html {
         if (empty) {
             return;
         }
-        sb.append("</").append(encode(name)).append('>');
+        sb.append("</").append(name).append('>');
     }
 
     @Override

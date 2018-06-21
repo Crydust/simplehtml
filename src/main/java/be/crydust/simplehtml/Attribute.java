@@ -4,19 +4,24 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static be.crydust.simplehtml.HtmlUtil.encode;
 
 final class Attribute {
+
+    // more restrictive than theoretically allowed:
+    // must start with a-z and contain dash, underscore a-z and 0-9.
+    private static final Pattern VALID_ATTRIBUTE_NAME = Pattern.compile("(?i)[a-z][-_a-z0-9]*");
+
     private final String name;
     private final String value;
 
     private Attribute(final String name, final String value) {
-        final String trimmedName = Objects.requireNonNull(name, "name").trim();
-        if (trimmedName.isEmpty()) {
-            throw new IllegalArgumentException("tagname is empty");
+        if (!VALID_ATTRIBUTE_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
+            throw new IllegalArgumentException("name '" + name + "' is not valid");
         }
-        this.name = trimmedName;
+        this.name = name;
         this.value = value == null ? "" : value;
     }
 
@@ -51,6 +56,6 @@ final class Attribute {
     }
 
     void appendTo(final StringBuilder sb) {
-        sb.append(' ').append(encode(name)).append("=\"").append(encode(value)).append('"');
+        sb.append(' ').append(name).append("=\"").append(encode(value)).append('"');
     }
 }
