@@ -1,9 +1,6 @@
 package be.crydust.simplehtml;
 
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import static be.crydust.simplehtml.HtmlUtil.encode;
@@ -17,22 +14,12 @@ final class Attribute {
     private final String name;
     private final String value;
 
-    private Attribute(final String name, final String value) {
+    Attribute(final String name, final String value) {
         if (!VALID_ATTRIBUTE_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
             throw new IllegalArgumentException("name '" + name + "' is not valid");
         }
         this.name = name;
         this.value = value == null ? "" : value;
-    }
-
-    static Set<Attribute> convertMapToAttributes(final Map<String, String> attributeMap) {
-        final Set<Attribute> attributes = new HashSet<>();
-        for (final Map.Entry<String, String> entry : attributeMap.entrySet()) {
-            if (!attributes.add(new Attribute(entry.getKey(), entry.getValue()))) {
-                throw new IllegalArgumentException("duplicate attribute '" + entry.getKey() + "=" + entry.getValue() + "'");
-            }
-        }
-        return attributes;
     }
 
     @Override

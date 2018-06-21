@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-import static be.crydust.simplehtml.Attribute.convertMapToAttributes;
+import static be.crydust.simplehtml.HtmlUtil.convertMapToAttributes;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 

@@ -1,5 +1,8 @@
 package be.crydust.simplehtml;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,5 +55,15 @@ final class HtmlUtil {
         } while (matcher.find());
         sb.append(s, cursor, s.length());
         return sb.toString();
+    }
+
+    static Set<Attribute> convertMapToAttributes(final Map<String, String> attributeMap) {
+        final Set<Attribute> attributes = new HashSet<>();
+        for (final Map.Entry<String, String> entry : attributeMap.entrySet()) {
+            if (!attributes.add(new Attribute(entry.getKey(), entry.getValue()))) {
+                throw new IllegalArgumentException("duplicate attribute '" + entry.getKey() + "=" + entry.getValue() + "'");
+            }
+        }
+        return attributes;
     }
 }
