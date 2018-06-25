@@ -1,6 +1,6 @@
 # simplehtml
 
-A java html library inspired by [preact's h function](https://github.com/developit/preact/blob/master/src/h.js).
+A java html library inspired by [preact's h function](https://github.com/developit/preact/blob/master/src/h.js), [jsx](https://jasonformat.com/wtf-is-jsx/) and [hyperscript](https://github.com/hyperhype/hyperscript).
 
 The only public class is "Html" and it contains static methods which allows us to write java code like this: 
 
