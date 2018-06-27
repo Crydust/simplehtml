@@ -210,4 +210,46 @@ public interface Java9Map {
         }
         return Collections.unmodifiableMap(map);
     }
+
+    static <K, V> Map.Entry<K, V> entry(K k, V v) {
+        return new Java9Entry<>(k, v);
+    }
+
+    @SafeVarargs
+    static <K, V> Map<K, V> ofEntries(Map.Entry<? extends K, ? extends V>... entries) {
+        final Map<K, V> map = new HashMap<>();
+        for (final Map.Entry<? extends K, ? extends V> entry : entries) {
+            if (map.put(requireNonNull(entry.getKey(), "key is null"),
+                    requireNonNull(entry.getValue(), "value is null")) != null) {
+                throw new IllegalArgumentException("key '" + entry.getKey() + "' is a duplicate key");
+            }
+        }
+        return Collections.unmodifiableMap(map);
+    }
+
+    class Java9Entry<K, V> implements Map.Entry<K, V> {
+
+        private final K key;
+        private final V value;
+
+        Java9Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public K getKey() {
+            return key;
+        }
+
+        @Override
+        public V getValue() {
+            return value;
+        }
+
+        @Override
+        public V setValue(V value) {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
