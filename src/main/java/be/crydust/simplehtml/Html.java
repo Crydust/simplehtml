@@ -56,11 +56,6 @@ public interface Html extends Iterable<Html> {
     }
 
     @Nonnull
-    static Html r(final String content) {
-        return new Raw(content);
-    }
-
-    @Nonnull
     static Html h(final Html... children) {
         return new Fragment(asList(children));
     }
