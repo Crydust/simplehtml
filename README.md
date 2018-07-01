@@ -12,7 +12,7 @@ h("div", Map.of("id", "foo"),
     h("li", h("p", "there")),
     h("li", h("p", "people"))
   )
-).toString();
+).getOuterHTML();
 ```
 
 To generate this html:
