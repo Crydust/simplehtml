@@ -19,9 +19,7 @@ final class Fragment implements Html {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        appendTo(sb);
-        return sb.toString();
+        return "Fragment{}";
     }
 
     @Override

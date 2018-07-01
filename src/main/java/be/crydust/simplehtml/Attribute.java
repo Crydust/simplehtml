@@ -22,6 +22,14 @@ final class Attribute {
         this.value = value == null ? "" : value;
     }
 
+    String getName() {
+        return name;
+    }
+
+    String getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -37,9 +45,7 @@ final class Attribute {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        appendTo(sb);
-        return sb.toString();
+        return "Attribute{name='" + name + "'}";
     }
 
     void appendTo(final StringBuilder sb) {

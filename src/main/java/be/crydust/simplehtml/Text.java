@@ -14,9 +14,7 @@ final class Text implements Html {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        appendTo(sb);
-        return sb.toString();
+        return "Text{}";
     }
 
     @Override

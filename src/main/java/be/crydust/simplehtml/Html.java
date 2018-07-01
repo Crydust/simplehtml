@@ -3,6 +3,7 @@ package be.crydust.simplehtml;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static be.crydust.simplehtml.HtmlUtil.convertMapToAttributes;
 import static java.util.Arrays.asList;
@@ -70,5 +71,15 @@ public interface Html extends Iterable<Html> {
     void appendStartTo(StringBuilder sb);
 
     void appendEndTo(StringBuilder sb);
+
+    default String getOuterHTML() {
+        final StringBuilder sb = new StringBuilder();
+        appendTo(sb);
+        return sb.toString();
+    }
+
+    default Optional<String> getAttribute(String name) {
+        return Optional.empty();
+    }
 
 }
