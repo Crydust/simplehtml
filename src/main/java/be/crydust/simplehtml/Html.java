@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static be.crydust.simplehtml.HtmlUtil.convertMapToAttributes;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -18,7 +17,7 @@ public interface Html extends Iterable<Html> {
 
     @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap) {
-        return new Element(name, convertMapToAttributes(attributeMap), null);
+        return new Element(name, attributeMap, null);
     }
 
     @Nonnull
@@ -38,17 +37,17 @@ public interface Html extends Iterable<Html> {
 
     @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final Html... children) {
-        return new Element(name, convertMapToAttributes(attributeMap), asList(children));
+        return new Element(name, attributeMap, asList(children));
     }
 
     @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final String text) {
-        return new Element(name, convertMapToAttributes(attributeMap), singletonList(t(text)));
+        return new Element(name, attributeMap, singletonList(t(text)));
     }
 
     @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final List<? extends Html> children) {
-        return new Element(name, convertMapToAttributes(attributeMap), children);
+        return new Element(name, attributeMap, children);
     }
 
     @Nonnull

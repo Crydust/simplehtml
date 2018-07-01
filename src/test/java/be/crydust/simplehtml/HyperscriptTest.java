@@ -46,7 +46,6 @@ public class HyperscriptTest {
     }
 
     @Test
-    @Ignore("Not implemented")
     public void can_default_element_types() {
         assertThat(h(".panel").getOuterHTML(), is("<div class=\"panel\"></div>"));
         assertThat(h("#frame").getOuterHTML(), is("<div id=\"frame\"></div>"));

@@ -1,5 +1,6 @@
 package be.crydust.simplehtml;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -58,6 +59,9 @@ final class HtmlUtil {
     }
 
     static Set<Attribute> convertMapToAttributes(final Map<String, String> attributeMap) {
+        if (attributeMap == null || attributeMap.isEmpty()) {
+            return Collections.emptySet();
+        }
         final Set<Attribute> attributes = new HashSet<>();
         for (final Map.Entry<String, String> entry : attributeMap.entrySet()) {
             if (!attributes.add(new Attribute(entry.getKey(), entry.getValue()))) {
