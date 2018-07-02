@@ -135,4 +135,18 @@ public class HtmlTest {
         h("div", Java9Map.of("<plaintext>", ""));
     }
 
+    @Test
+    public void should_support_ids_and_classes_in_name() {
+        final String html = h("div#foo.middle.upper", Java9Map.of("class", "lower"))
+                .getOuterHTML();
+        System.out.println("html = " + html);
+        assertThat(html, is("<div class=\"lower middle upper\" id=\"foo\"></div>"));
+    }
+
+    @Test
+    public void should_throw_for_duplicate_ids() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("duplicate id attribute");
+         h("div#same", Java9Map.of("id", "same"));
+    }
 }
