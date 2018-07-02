@@ -2,6 +2,7 @@ package be.crydust.simplehtml;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -67,9 +69,9 @@ final class Element implements Html {
         this.name = tempName;
         this.empty = EMPTY_TAGS.matcher(tempName).matches();
 
-        this.attributes = tempAttributeMap.entrySet().stream()
+        this.attributes = Collections.unmodifiableSortedSet(tempAttributeMap.entrySet().stream()
                 .map(entry -> new Attribute(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(TreeSet::new)));
 
         this.children = (this.empty || children == null)
                 ? emptyList()

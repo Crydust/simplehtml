@@ -21,7 +21,7 @@ public class HtmlTest {
     public void example1() {
         final String html = h("div", Java9Map.of("id", "foo", "name", "bar"), "Hello!")
                 .getOuterHTML();
-        assertThat(html, is("<div name=\"bar\" id=\"foo\">Hello!</div>"));
+        assertThat(html, is("<div id=\"foo\" name=\"bar\">Hello!</div>"));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class HtmlTest {
                 "img",
                 Java9Map.of("src", "images/firefox-icon.png", "alt", "My test image")
         ).getOuterHTML();
-        assertThat(html, is("<img src=\"images/firefox-icon.png\" alt=\"My test image\"/>"));
+        assertThat(html, is("<img alt=\"My test image\" src=\"images/firefox-icon.png\"/>"));
     }
 
     @Test

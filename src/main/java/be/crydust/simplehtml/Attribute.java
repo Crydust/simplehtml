@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import static be.crydust.simplehtml.HtmlUtil.encode;
 
-final class Attribute {
+final class Attribute implements Comparable<Attribute> {
 
     // more restrictive than theoretically allowed:
     // must start with a-z and can contain dash, underscore, a-z and 0-9.
@@ -50,5 +50,10 @@ final class Attribute {
 
     void appendTo(final StringBuilder sb) {
         sb.append(' ').append(name).append("=\"").append(encode(value)).append('"');
+    }
+
+    @Override
+    public int compareTo(Attribute o) {
+        return this.name.compareTo(o.name);
     }
 }
