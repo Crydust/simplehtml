@@ -135,14 +135,4 @@ public class HtmlTest {
         h("div", Java9Map.of("<plaintext>", ""));
     }
 
-    @Test
-    public void should_throw_for_duplicate_attributes() {
-        final BadMap<String, String> attributes = new BadMap<>();
-        attributes.put("class", "a");
-        attributes.put("class", "b");
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("duplicate attribute 'class=b'");
-        h("div", attributes);
-    }
-
 }
