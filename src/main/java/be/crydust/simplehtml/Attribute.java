@@ -9,7 +9,7 @@ final class Attribute {
 
     // more restrictive than theoretically allowed:
     // must start with a-z and can contain dash, underscore, a-z and 0-9.
-    private static final Pattern VALID_ATTRIBUTE_NAME = Pattern.compile("(?i)[a-z][-_a-z0-9]*");
+    private static final Pattern VALID_ATTRIBUTE_NAME = Pattern.compile("(?i)(?:[a-z][-_a-z0-9]*:)?[a-z][-_a-z0-9]*");
 
     private final String name;
     private final String value;
