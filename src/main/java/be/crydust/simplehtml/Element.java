@@ -12,8 +12,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import static be.crydust.simplehtml.HtmlUtil.convertMapToAttributes;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.unmodifiableList;
@@ -67,7 +67,10 @@ final class Element implements Html {
         this.name = tempName;
         this.empty = EMPTY_TAGS.matcher(tempName).matches();
 
-        this.attributes = convertMapToAttributes(tempAttributeMap);
+        this.attributes = tempAttributeMap.entrySet().stream()
+                .map(entry -> new Attribute(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toSet());
+
         this.children = (this.empty || children == null)
                 ? emptyList()
                 : unmodifiableList(new ArrayList<>(children));
