@@ -25,16 +25,16 @@ final class Element implements Html {
     // more restrictive than theoretically allowed:
     // namespace, tagname, id and classnames must start with a-z and can contain dash, underscore, a-z and 0-9
     // format is: namespace:tagname#id.class0.class1
-    private static final Pattern VALID_TAG_NAME = Pattern.compile("(?i)(?:" +
+    private static final String NAME_OR_ID_OR_CLASS_REGEX = "(?i)" +
+            "(?:" +
             "(?:[a-z][-_a-z0-9]*:)?[a-z][-_a-z0-9]*" +
             "|" +
-            "[.#][a-z][-_a-z0-9]*" +
-            ")*");
-    private static final Pattern TAG_NAME_PART = Pattern.compile("(?i)(?:" +
-            "(?:[a-z][-_a-z0-9]*:)?[a-z][-_a-z0-9]*" +
+            "#[a-z][-_a-z0-9]*" +
             "|" +
-            "[.#][a-z][-_a-z0-9]*" +
-            ")");
+            "\\.[a-z][-_a-z0-9]*" +
+            ")";
+    private static final Pattern TAG_NAME_PART = Pattern.compile(NAME_OR_ID_OR_CLASS_REGEX);
+    private static final Pattern VALID_TAG_NAME = Pattern.compile(NAME_OR_ID_OR_CLASS_REGEX + "*");
     private static final Pattern EMPTY_TAGS = Pattern.compile("(?i)area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr");
     private final String name;
     private final Set<Attribute> attributes;
