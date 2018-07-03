@@ -23,11 +23,6 @@ final class Text implements Html {
     }
 
     @Override
-    public void appendEndTo(final StringBuilder sb) {
-        // NOOP
-    }
-
-    @Override
     public Iterator<Html> iterator() {
         return Collections.emptyIterator();
     }

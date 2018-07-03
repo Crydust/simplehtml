@@ -71,9 +71,13 @@ public interface Html extends Iterable<Html> {
         return new Fragment(children);
     }
 
-    void appendStartTo(StringBuilder sb);
+    default void appendStartTo(StringBuilder sb) {
+        // NOOP
+    }
 
-    void appendEndTo(StringBuilder sb);
+    default void appendEndTo(StringBuilder sb) {
+        // NOOP
+    }
 
     default String getOuterHTML() {
         final Set<String> ids = new HashSet<>();

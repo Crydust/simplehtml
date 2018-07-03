@@ -23,16 +23,6 @@ final class Fragment implements Html {
     }
 
     @Override
-    public void appendStartTo(StringBuilder sb) {
-        //NOOP
-    }
-
-    @Override
-    public void appendEndTo(StringBuilder sb) {
-        //NOOP
-    }
-
-    @Override
     public Iterator<Html> iterator() {
         return this.children.iterator();
     }
