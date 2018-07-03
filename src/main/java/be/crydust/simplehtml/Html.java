@@ -1,8 +1,6 @@
 package be.crydust.simplehtml;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +87,7 @@ public interface Html extends Iterable<Html> {
         //
         // it is replaced by the more complex logic below
         // this is a depth first traversal of the tree
-        final Deque<HtmlAndIterator> stack = new ArrayDeque<>();
+        final LimitedSizeStack<HtmlAndIterator> stack = new LimitedSizeStack<>(MAX_DEPTH);
         HtmlAndIterator current = new HtmlAndIterator(this);
         stack.push(current);
         current.html.appendStartTo(sb);
@@ -97,9 +95,6 @@ public interface Html extends Iterable<Html> {
         while (!stack.isEmpty()) {
             current = Objects.requireNonNull(stack.peek(), "current");
             while (current.iterator.hasNext()) {
-                if (stack.size() > MAX_DEPTH) {
-                    throw new IllegalStateException("Sorry, html is nested too deeply. MAX_DEPTH = " + MAX_DEPTH);
-                }
                 current = new HtmlAndIterator(current.iterator.next());
                 stack.push(current);
                 current.html.appendStartTo(sb);

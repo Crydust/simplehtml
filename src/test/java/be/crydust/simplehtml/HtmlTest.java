@@ -107,7 +107,7 @@ public class HtmlTest {
             div = h("div", div);
         }
         thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("Sorry, html is nested too deeply. MAX_DEPTH = 13526");
+        thrown.expectMessage("Stack size exceeds 13526");
         div.getOuterHTML();
     }
 
