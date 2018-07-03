@@ -23,15 +23,8 @@ final class Fragment implements Html {
     }
 
     @Override
-    public void appendTo(StringBuilder sb) {
-        appendStartTo(sb);
-    }
-
-    @Override
     public void appendStartTo(StringBuilder sb) {
-        for (final Html child : this.children) {
-            child.appendTo(sb);
-        }
+        //NOOP
     }
 
     @Override

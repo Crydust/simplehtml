@@ -1,14 +1,20 @@
 package be.crydust.simplehtml;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 public interface Html extends Iterable<Html> {
+
+    // the ArrayDeque would grow capacity from 13528 to 20292 beyond this number
+    int MAX_DEPTH = 13_526;
 
     @Nonnull
     static Html h(final String name) {
@@ -65,15 +71,38 @@ public interface Html extends Iterable<Html> {
         return new Fragment(children);
     }
 
-    void appendTo(StringBuilder sb);
-
     void appendStartTo(StringBuilder sb);
 
     void appendEndTo(StringBuilder sb);
 
     default String getOuterHTML() {
         final StringBuilder sb = new StringBuilder();
-        appendTo(sb);
+        // this leeds to a StackOverflowError given deeply nested tags
+        // appendStartTo(sb);
+        // for (Html html : this) {
+        //     html.appendTo(sb);
+        // }
+        // appendEndTo(sb);
+        //
+        // it is replaced by the more complex logic below
+        // this is a depth first traversal of the tree
+        final Deque<HtmlAndIterator> stack = new ArrayDeque<>();
+        HtmlAndIterator current = new HtmlAndIterator(this);
+        stack.push(current);
+        current.html.appendStartTo(sb);
+        while (!stack.isEmpty()) {
+            current = Objects.requireNonNull(stack.peek(), "current");
+            while (current.iterator.hasNext()) {
+                if (stack.size() > MAX_DEPTH) {
+                    throw new IllegalStateException("Sorry, html is nested too deeply. MAX_DEPTH = " + MAX_DEPTH);
+                }
+                current = new HtmlAndIterator(current.iterator.next());
+                stack.push(current);
+                current.html.appendStartTo(sb);
+            }
+            current.html.appendEndTo(sb);
+            stack.pop();
+        }
         return sb.toString();
     }
 

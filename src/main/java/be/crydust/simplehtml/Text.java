@@ -18,11 +18,6 @@ final class Text implements Html {
     }
 
     @Override
-    public void appendTo(StringBuilder sb) {
-        appendStartTo(sb);
-    }
-
-    @Override
     public void appendStartTo(final StringBuilder sb) {
         sb.append(encode(text));
     }

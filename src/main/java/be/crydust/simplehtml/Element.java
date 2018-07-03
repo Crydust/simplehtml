@@ -1,9 +1,7 @@
 package be.crydust.simplehtml;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,8 +20,6 @@ import static java.util.Collections.unmodifiableList;
 
 final class Element implements Html {
 
-    // the ArrayDeque would grow capacity from 13528 to 20292 beyond this number
-    private static final int MAX_DEPTH = 13_526;
     // more restrictive than theoretically allowed:
     // namespace, tagname, id and classnames must start with a-z and can contain dash, underscore, a-z and 0-9
     // format is: namespace:tagname#id.class0.class1
@@ -86,36 +82,6 @@ final class Element implements Html {
     }
 
     @Override
-    public void appendTo(StringBuilder sb) {
-        // this leeds to a StackOverflowError given deeply nested tags
-        // appendStartTo(sb);
-        // for (Html html : this) {
-        //     html.appendTo(sb);
-        // }
-        // appendEndTo(sb);
-        //
-        // it is replaced by the more complex logic below
-        // this is a depth first traversal of the tree
-        final Deque<HtmlAndIterator> stack = new ArrayDeque<>();
-        HtmlAndIterator current = new HtmlAndIterator(this);
-        stack.push(current);
-        current.html.appendStartTo(sb);
-        while (!stack.isEmpty()) {
-            current = Objects.requireNonNull(stack.peek(), "current");
-            while (current.iterator.hasNext()) {
-                if (stack.size() > MAX_DEPTH) {
-                    throw new IllegalStateException("Sorry, html is nested too deeply. MAX_DEPTH = " + MAX_DEPTH);
-                }
-                current = new HtmlAndIterator(current.iterator.next());
-                stack.push(current);
-                current.html.appendStartTo(sb);
-            }
-            current.html.appendEndTo(sb);
-            stack.pop();
-        }
-    }
-
-    @Override
     public void appendStartTo(final StringBuilder sb) {
         sb.append('<').append(name);
         for (final Attribute attribute : this.attributes) {
@@ -151,13 +117,4 @@ final class Element implements Html {
                 .findAny();
     }
 
-    private static class HtmlAndIterator {
-        final Html html;
-        final Iterator<Html> iterator;
-
-        HtmlAndIterator(final Html html) {
-            this.html = html;
-            this.iterator = html.iterator();
-        }
-    }
 }
