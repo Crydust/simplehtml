@@ -9,7 +9,11 @@ final class Attribute implements Comparable<Attribute> {
 
     // more restrictive than theoretically allowed:
     // must start with a-z and can contain dash, underscore, a-z and 0-9.
-    private static final Pattern VALID_ATTRIBUTE_NAME = Pattern.compile("(?i)(?:[a-z][-_a-z0-9]*:)?[a-z][-_a-z0-9]*");
+    private static final Pattern VALID_ATTRIBUTE_NAME = Pattern.compile("(?:[A-Za-z][-_A-Za-z0-9]*:)?[A-Za-z][-_A-Za-z0-9]*");
+
+    // https://www.w3.org/TR/html401/types.html#type-name
+    // ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
+    private static final Pattern VALID_ID_OR_NAME_VALUE = Pattern.compile("[A-Za-z][-_:.A-Za-z0-9]*");
 
     private final String name;
     private final String value;
@@ -17,6 +21,11 @@ final class Attribute implements Comparable<Attribute> {
     Attribute(final String name, final String value) {
         if (!VALID_ATTRIBUTE_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
             throw new IllegalArgumentException("Attribute name '" + name + "' is not valid");
+        }
+        if ("id".equalsIgnoreCase(name) || "name".equalsIgnoreCase(name)) {
+            if (value == null || !VALID_ID_OR_NAME_VALUE.matcher(value).matches()) {
+                throw new IllegalArgumentException("Attribute value '" + value + "' is not valid for '" + name + "'");
+            }
         }
         this.name = name;
         this.value = value == null ? "" : value;

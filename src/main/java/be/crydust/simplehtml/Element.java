@@ -27,16 +27,17 @@ final class Element implements Html {
     // more restrictive than theoretically allowed:
     // namespace, tagname, id and classnames must start with a-z and can contain dash, underscore, a-z and 0-9
     // format is: namespace:tagname#id.class0.class1
-    private static final String NAME_OR_ID_OR_CLASS_REGEX = "(?i)" +
+    // you can't use a period in the id read from the tag name
+    private static final String TAG_NAME_PART_REGEX = "" +
             "(?:" +
-            "(?:[a-z][-_a-z0-9]*:)?[a-z][-_a-z0-9]*" +
+            "(?:[A-Za-z][-_A-Za-z0-9]*:)?[A-Za-z][-_A-Za-z0-9]*" +
             "|" +
-            "#[a-z][-_a-z0-9]*" +
+            "#[A-Za-z][-_A-Za-z0-9:]*" +
             "|" +
-            "\\.[a-z][-_a-z0-9]*" +
+            "\\.[A-Za-z][-_A-Za-z0-9]*" +
             ")";
-    private static final Pattern TAG_NAME_PART = Pattern.compile(NAME_OR_ID_OR_CLASS_REGEX);
-    private static final Pattern VALID_TAG_NAME = Pattern.compile(NAME_OR_ID_OR_CLASS_REGEX + "*");
+    private static final Pattern TAG_NAME_PART = Pattern.compile(TAG_NAME_PART_REGEX);
+    private static final Pattern TAG_NAME_PARTS = Pattern.compile(TAG_NAME_PART_REGEX + "*");
     private static final Pattern EMPTY_TAGS = Pattern.compile("(?i)area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr");
     private final String name;
     private final Set<Attribute> attributes;
@@ -44,8 +45,7 @@ final class Element implements Html {
     private final boolean empty;
 
     Element(final String name, final Map<String, String> attributes, final List<? extends Html> children) {
-        final Matcher nameMatcher = VALID_TAG_NAME.matcher(Objects.requireNonNull(name, "name"));
-        if (!nameMatcher.matches()) {
+        if (!TAG_NAME_PARTS.matcher(Objects.requireNonNull(name, "name")).matches()) {
             throw new IllegalArgumentException("Element name '" + name + "' is not valid");
         }
         String tempName = "div";
@@ -54,16 +54,18 @@ final class Element implements Html {
 
         final Matcher nameOrIdOrClassMatcher = TAG_NAME_PART.matcher(name);
         while (nameOrIdOrClassMatcher.find()) {
-            final String IdOrClassOrName = nameOrIdOrClassMatcher.group();
-            if (IdOrClassOrName.startsWith("#")) {
-                if (tempAttributeMap.containsKey("id")) {
-                    throw new IllegalArgumentException("duplicate id attribute");
+            final String nameOrIdOrClass = nameOrIdOrClassMatcher.group();
+            if (nameOrIdOrClass.startsWith("#")) {
+                final String id = nameOrIdOrClass.substring(1);
+                if (tempAttributeMap.containsKey("id") && !id.equals(tempAttributeMap.get("id"))) {
+                    throw new IllegalArgumentException("Ambiguous id attribute: is it '" + id + "' or '" + tempAttributeMap.get("id") + "'");
                 }
-                tempAttributeMap.put("id", IdOrClassOrName.substring(1));
-            } else if (IdOrClassOrName.startsWith(".")) {
-                tempAttributeMap.merge("class", IdOrClassOrName.substring(1), (a, b) -> a + " " + b);
+                tempAttributeMap.put("id", id);
+            } else if (nameOrIdOrClass.startsWith(".")) {
+                final String cssClass = nameOrIdOrClass.substring(1);
+                tempAttributeMap.merge("class", cssClass, (a, b) -> a + " " + b);
             } else {
-                tempName = IdOrClassOrName;
+                tempName = nameOrIdOrClass;
             }
         }
         this.name = tempName;

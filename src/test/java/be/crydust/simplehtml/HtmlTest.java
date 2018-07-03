@@ -139,14 +139,48 @@ public class HtmlTest {
     public void should_support_ids_and_classes_in_name() {
         final String html = h("div#foo.middle.upper", Java9Map.of("class", "lower"))
                 .getOuterHTML();
-        System.out.println("html = " + html);
         assertThat(html, is("<div class=\"lower middle upper\" id=\"foo\"></div>"));
     }
 
     @Test
-    public void should_throw_for_duplicate_ids() {
+    public void should_throw_for_ambiguous_ids() {
+        h("div#same", Java9Map.of("id", "same"));
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("duplicate id attribute");
-         h("div#same", Java9Map.of("id", "same"));
+        thrown.expectMessage("Ambiguous id attribute: is it 'first' or 'second'");
+        h("div#first", Java9Map.of("id", "second"));
+    }
+
+    @Test
+    public void should_allow_colon_in_id() {
+        assertThat(h("#a:b").getOuterHTML(), is("<div id=\"a:b\"></div>"));
+    }
+
+    @Test
+    public void should_allow_period_in_id() {
+        assertThat(h("div", Java9Map.of("id", "a.b")).getOuterHTML(), is("<div id=\"a.b\"></div>"));
+    }
+
+    @Test
+    public void should_throw_for_empty_id() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Attribute value '' is not valid for 'id'");
+        h("div", Java9Map.of("id", ""));
+    }
+
+    @Test
+    public void should_allow_colon_in_name() {
+        assertThat(h("a", Java9Map.of("name", "a:b")).getOuterHTML(), is("<a name=\"a:b\"></a>"));
+    }
+
+    @Test
+    public void should_allow_period_in_name() {
+        assertThat(h("a", Java9Map.of("name", "a.b")).getOuterHTML(), is("<a name=\"a.b\"></a>"));
+    }
+
+    @Test
+    public void should_throw_for_empty_name() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Attribute value '' is not valid for 'name'");
+        h("a", Java9Map.of("name", ""));
     }
 }
