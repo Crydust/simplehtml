@@ -3,10 +3,12 @@ package be.crydust.simplehtml;
 import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -76,6 +78,7 @@ public interface Html extends Iterable<Html> {
     void appendEndTo(StringBuilder sb);
 
     default String getOuterHTML() {
+        final Set<String> ids = new HashSet<>();
         final StringBuilder sb = new StringBuilder();
         // this leeds to a StackOverflowError given deeply nested tags
         // appendStartTo(sb);
@@ -90,6 +93,7 @@ public interface Html extends Iterable<Html> {
         HtmlAndIterator current = new HtmlAndIterator(this);
         stack.push(current);
         current.html.appendStartTo(sb);
+        current.html.getAttribute("id").ifPresent(ids::add);
         while (!stack.isEmpty()) {
             current = Objects.requireNonNull(stack.peek(), "current");
             while (current.iterator.hasNext()) {
@@ -99,6 +103,10 @@ public interface Html extends Iterable<Html> {
                 current = new HtmlAndIterator(current.iterator.next());
                 stack.push(current);
                 current.html.appendStartTo(sb);
+                final Optional<String> optionalId = current.html.getAttribute("id");
+                if (optionalId.isPresent() && !ids.add(optionalId.get())) {
+                    throw new IllegalStateException("The '" + optionalId.get() + "' id is used twice");
+                }
             }
             current.html.appendEndTo(sb);
             stack.pop();

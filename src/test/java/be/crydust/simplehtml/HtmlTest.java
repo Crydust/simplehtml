@@ -168,6 +168,13 @@ public class HtmlTest {
     }
 
     @Test
+    public void should_throw_for_duplicate_id() {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("The 'a' id is used twice");
+        h(h("#a"), h("#a")).getOuterHTML();
+    }
+
+    @Test
     public void should_allow_colon_in_name() {
         assertThat(h("a", Java9Map.of("name", "a:b")).getOuterHTML(), is("<a name=\"a:b\"></a>"));
     }
