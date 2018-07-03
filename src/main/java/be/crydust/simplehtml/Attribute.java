@@ -22,7 +22,7 @@ final class Attribute implements Comparable<Attribute> {
         if (!VALID_ATTRIBUTE_NAME.matcher(Objects.requireNonNull(name, "name")).matches()) {
             throw new IllegalArgumentException("Attribute name '" + name + "' is not valid");
         }
-        if ("id".equalsIgnoreCase(name) || "name".equalsIgnoreCase(name)) {
+        if ("id".equalsIgnoreCase(name) || "for".equalsIgnoreCase(name) || "name".equalsIgnoreCase(name)) {
             if (value == null || !VALID_ID_OR_NAME_VALUE.matcher(value).matches()) {
                 throw new IllegalArgumentException("Attribute value '" + value + "' is not valid for '" + name + "'");
             }
