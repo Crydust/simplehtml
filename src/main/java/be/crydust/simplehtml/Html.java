@@ -4,9 +4,9 @@ import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -78,35 +78,35 @@ public interface Html extends Iterable<Html> {
     default String getOuterHTML() {
         final Set<String> ids = new HashSet<>();
         final StringBuilder sb = new StringBuilder();
-        // this leeds to a StackOverflowError given deeply nested tags
-        // appendStartTo(sb);
-        // for (Html html : this) {
-        //     html.appendTo(sb);
-        // }
-        // appendEndTo(sb);
-        //
-        // it is replaced by the more complex logic below
-        // this is a depth first traversal of the tree
+        walk(
+                this,
+                html -> {
+                    html.appendStartTo(sb);
+                    final Optional<String> optionalId = html.getAttribute("id");
+                    if (optionalId.isPresent() && !ids.add(optionalId.get())) {
+                        throw new IllegalStateException("The '" + optionalId.get() + "' id is used twice");
+                    }
+                },
+                html -> html.appendEndTo(sb)
+        );
+        return sb.toString();
+    }
+
+    static void walk(Html root, Consumer<Html> startElement, Consumer<Html> endElement) {
         final LimitedSizeStack<HtmlAndIterator> stack = new LimitedSizeStack<>(MAX_DEPTH);
-        HtmlAndIterator current = new HtmlAndIterator(this);
+        HtmlAndIterator current = new HtmlAndIterator(root);
         stack.push(current);
-        current.html.appendStartTo(sb);
-        current.html.getAttribute("id").ifPresent(ids::add);
+        startElement.accept(current.html);
         while (!stack.isEmpty()) {
-            current = Objects.requireNonNull(stack.peek(), "current");
+            current = stack.peek();
             while (current.iterator.hasNext()) {
                 current = new HtmlAndIterator(current.iterator.next());
                 stack.push(current);
-                current.html.appendStartTo(sb);
-                final Optional<String> optionalId = current.html.getAttribute("id");
-                if (optionalId.isPresent() && !ids.add(optionalId.get())) {
-                    throw new IllegalStateException("The '" + optionalId.get() + "' id is used twice");
-                }
+                startElement.accept(current.html);
             }
-            current.html.appendEndTo(sb);
+            endElement.accept(current.html);
             stack.pop();
         }
-        return sb.toString();
     }
 
     default Optional<String> getAttribute(String name) {
