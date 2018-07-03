@@ -71,12 +71,17 @@ public interface Html extends Iterable<Html> {
         return new Fragment(children);
     }
 
-    default void appendStartTo(StringBuilder sb) {
-        // NOOP
-    }
-
-    default void appendEndTo(StringBuilder sb) {
-        // NOOP
+    static void walk(Html root, Consumer<Html> startElement, Consumer<Html> endElement) {
+        final LimitedSizeStack<HtmlAndIterator> stack = new LimitedSizeStack<>(MAX_DEPTH);
+        stack.push(new HtmlAndIterator(root));
+        startElement.accept(stack.peek().html);
+        while (!stack.isEmpty()) {
+            while (stack.peek().iterator.hasNext()) {
+                stack.push(new HtmlAndIterator(stack.peek().iterator.next()));
+                startElement.accept(stack.peek().html);
+            }
+            endElement.accept(stack.pop().html);
+        }
     }
 
     default String getOuterHTML() {
@@ -96,17 +101,12 @@ public interface Html extends Iterable<Html> {
         return sb.toString();
     }
 
-    static void walk(Html root, Consumer<Html> startElement, Consumer<Html> endElement) {
-        final LimitedSizeStack<HtmlAndIterator> stack = new LimitedSizeStack<>(MAX_DEPTH);
-        stack.push(new HtmlAndIterator(root));
-        startElement.accept(stack.peek().html);
-        while (!stack.isEmpty()) {
-            while (stack.peek().iterator.hasNext()) {
-                stack.push(new HtmlAndIterator(stack.peek().iterator.next()));
-                startElement.accept(stack.peek().html);
-            }
-            endElement.accept(stack.pop().html);
-        }
+    default void appendStartTo(StringBuilder sb) {
+        // NOOP
+    }
+
+    default void appendEndTo(StringBuilder sb) {
+        // NOOP
     }
 
     default Optional<String> getAttribute(String name) {
