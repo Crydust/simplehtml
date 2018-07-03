@@ -15,11 +15,11 @@ class LimitedSizeStack<E> {
         return stack.peek();
     }
 
-    void push(E htmlAndIterator) {
+    void push(E e) {
         if (stack.size() >= maxSize) {
             throw new IllegalStateException("Stack size exceeds " + maxSize);
         }
-        stack.push(htmlAndIterator);
+        stack.push(e);
     }
 
     E pop() {
