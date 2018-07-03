@@ -94,18 +94,14 @@ public interface Html extends Iterable<Html> {
 
     static void walk(Html root, Consumer<Html> startElement, Consumer<Html> endElement) {
         final LimitedSizeStack<HtmlAndIterator> stack = new LimitedSizeStack<>(MAX_DEPTH);
-        HtmlAndIterator current = new HtmlAndIterator(root);
-        stack.push(current);
-        startElement.accept(current.html);
+        stack.push(new HtmlAndIterator(root));
+        startElement.accept(stack.peek().html);
         while (!stack.isEmpty()) {
-            current = stack.peek();
-            while (current.iterator.hasNext()) {
-                current = new HtmlAndIterator(current.iterator.next());
-                stack.push(current);
-                startElement.accept(current.html);
+            while (stack.peek().iterator.hasNext()) {
+                stack.push(new HtmlAndIterator(stack.peek().iterator.next()));
+                startElement.accept(stack.peek().html);
             }
-            endElement.accept(current.html);
-            stack.pop();
+            endElement.accept(stack.pop().html);
         }
     }
 
