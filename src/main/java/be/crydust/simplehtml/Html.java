@@ -91,10 +91,11 @@ public interface Html extends Iterable<Html> {
                 this,
                 html -> {
                     html.appendStartTo(sb);
-                    final Optional<String> optionalId = html.getAttribute("id");
-                    if (optionalId.isPresent() && !ids.add(optionalId.get())) {
-                        throw new IllegalStateException("The '" + optionalId.get() + "' id is used twice");
-                    }
+                    html.getAttribute("id")
+                            .filter(id -> !ids.add(id))
+                            .ifPresent(id -> {
+                                throw new IllegalStateException("The '" + id + "' id is used twice");
+                            });
                 },
                 html -> html.appendEndTo(sb)
         );
