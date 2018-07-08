@@ -1,6 +1,5 @@
 package be.crydust.simplehtml;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +16,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toList;
 
 final class Element implements Html {
 
@@ -73,7 +73,7 @@ final class Element implements Html {
 
         this.children = (this.empty || children == null)
                 ? emptyList()
-                : unmodifiableList(new ArrayList<>(children));
+                : unmodifiableList(children.stream().filter(Objects::nonNull).collect(toList()));
     }
 
     @Override
