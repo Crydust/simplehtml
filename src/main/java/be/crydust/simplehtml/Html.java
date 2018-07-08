@@ -38,7 +38,7 @@ public interface Html extends Iterable<Html> {
 
     @Nonnull
     static Html h(final String name, final String text) {
-        return new Element(name, null, singletonList(t(text)));
+        return new Element(name, null, singletonList(text(text)));
     }
 
     @Nonnull
@@ -48,7 +48,7 @@ public interface Html extends Iterable<Html> {
 
     @Nonnull
     static Html h(final String name, final Map<String, String> attributeMap, final String text) {
-        return new Element(name, attributeMap, singletonList(t(text)));
+        return new Element(name, attributeMap, singletonList(text(text)));
     }
 
     @Nonnull
@@ -57,7 +57,7 @@ public interface Html extends Iterable<Html> {
     }
 
     @Nonnull
-    static Html t(final String content) {
+    static Html text(final String content) {
         return new Text(content);
     }
 

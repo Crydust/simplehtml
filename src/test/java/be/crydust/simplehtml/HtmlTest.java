@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static be.crydust.simplehtml.Html.h;
-import static be.crydust.simplehtml.Html.t;
+import static be.crydust.simplehtml.Html.text;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -42,7 +42,7 @@ public class HtmlTest {
         final String html = h(
                 "p",
                 Java9Map.of("class", "editor-note"),
-                t("My cat is "), h("strong", "very"), t(" grumpy")
+                text("My cat is "), h("strong", "very"), text(" grumpy")
         ).getOuterHTML();
         assertThat(html, is("<p class=\"editor-note\">My cat is <strong>very</strong> grumpy</p>"));
     }
@@ -67,12 +67,12 @@ public class HtmlTest {
 
     @Test
     public void text_should_replace_html() {
-        assertThat(t("abc").getOuterHTML(), is("abc"));
-        assertThat(t("abc&").getOuterHTML(), is("abc&amp;"));
-        assertThat(t("&abc").getOuterHTML(), is("&amp;abc"));
-        assertThat(t("a&bc").getOuterHTML(), is("a&amp;bc"));
-        assertThat(t("&a&b&c&").getOuterHTML(), is("&amp;a&amp;b&amp;c&amp;"));
-        assertThat(t("&<>\"'`").getOuterHTML(), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
+        assertThat(text("abc").getOuterHTML(), is("abc"));
+        assertThat(text("abc&").getOuterHTML(), is("abc&amp;"));
+        assertThat(text("&abc").getOuterHTML(), is("&amp;abc"));
+        assertThat(text("a&bc").getOuterHTML(), is("a&amp;bc"));
+        assertThat(text("&a&b&c&").getOuterHTML(), is("&amp;a&amp;b&amp;c&amp;"));
+        assertThat(text("&<>\"'`").getOuterHTML(), is("&amp;&lt;&gt;&quot;&#x27;&#x60;"));
     }
 
     @Test
